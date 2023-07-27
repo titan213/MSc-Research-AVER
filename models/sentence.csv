@@ -1,0 +1,231 @@
+,phrase,class
+0,I'm experiencing a mental health crisis.,medical department
+1,I need help with a domestic dispute.,police department
+3,"I need a fire extinguisher, there's a small fire in my kitchen.",fire department
+4,I see a person who is carrying a weapon in public.,police department
+5,I'm having a severe asthma attack.,medical department
+6,There's a person who is stuck in a car that has crashed.,fire department
+7,I think someone is trying to break into my car.,police department
+8,I see a person who has fallen from a height.,emergency services
+9,I need help evacuating my home due to a natural disaster.,emergency services
+10,I see a person who is experiencing a heart attack.,medical department
+11,I'm stuck in a public restroom stall.,fire department
+12,There's a person who is causing a disturbance in a public place.,police department
+13,I'm experiencing a severe headache and dizziness.,medical department
+14,I see a person who is trapped in a collapsed building.,emergency services
+15,I think my house is being burglarized right now.,police department
+16,There's a person who is having a severe asthma attack.,medical department
+17,I'm locked out of my house and I don't have a spare key.,fire department
+18,I see a person who is trapped in a river or body of water.,emergency services
+19,I think I'm having a severe allergic reaction to something I ate.,medical department
+20,There's a person who is driving erratically and dangerously on the road.,police department
+21,I need help extinguishing a small fire in my backyard.,fire department
+22,I see a person who is experiencing a severe burn.,medical department
+23,There's a person who is causing damage to public property.,police department
+24,I'm experiencing a severe toothache and I can't sleep.,medical department
+25,I see a person who is in a car accident and is injured.,medical department
+26,There's a person who is harassing me and won't leave me alone.,police department
+27,I need help finding a lost child or elderly person.,police department
+28,I see a person who is having a severe allergic reaction to a bee sting.,medical department
+29,There's a person who is selling drugs in my area.,police department
+30,I'm experiencing severe abdominal pain.,medical department
+31,I see a person who is trapped in a collapsed mine or tunnel.,emergency services
+32,There's a person who is making threats against a school or other public place.,police department
+34,I see a person who is experiencing a severe asthma attack.,medical department
+35,There's a person who is driving under the influence of drugs or alcohol.,police department
+36,I'm experiencing severe back pain and I can't move.,medical department
+37,I see a person who is trapped in a cave or other enclosed space.,emergency services
+38,There's a person who is causing a disturbance at a peaceful protest or demonstration.,police department
+40,I see a person who is experiencing a severe allergic reaction to medication.,medical department
+41,There's a person who is trespassing on private property and causing damage.,police department
+42,I'm experiencing severe chest pain and shortness of breath.,medical department
+43,I'm experiencing a mental health crisis.,medical department
+44,I need help with a domestic dispute.,police department
+45,There's a person who is trespassing on my property.,police department
+46,I see a person who is experiencing a drug overdose.,medical department
+47,My house has been broken into.,police department
+48,There's a person who is unconscious.,medical department
+49,There's a person who is experiencing a heart attack.,medical department
+50,There's a person who is in need of CPR.,medical department
+51,My car has been in an accident.,police department
+52,I'm experiencing a severe headache.,medical department
+53,There's a person who is having difficulty breathing.,medical department
+54,I see a person who is in need of first aid.,medical department
+55,I'm being threatened with a weapon.,police department
+56,My child is choking.,medical department
+57,There's a person who is having a diabetic emergency.,medical department
+58,I see a person who is in need of a defibrillator.,medical department
+59,My car has caught on fire.,fire department
+60,I'm experiencing a severe asthma attack.,medical department
+61,There's a person who is having a seizure due to epilepsy.,medical department
+62,There's a person who is experiencing a severe allergic reaction to a bee sting.,medical department
+63,I see a person who is in need of mental health support.,medical department
+64,My house has been damaged due to severe weather conditions.,emergency services
+65,I'm experiencing severe abdominal pain.,medical department
+66,There's a person who is experiencing a severe nosebleed.,medical department
+67,I see a person who is experiencing a stroke.,medical department
+68,There's a person who is in need of insulin due to diabetes.,medical department
+69,I'm experiencing a severe burn.,medical department
+70,There's a person who is experiencing a severe asthma attack.,medical department
+71,There's a person who is experiencing a drug overdose.,medical department
+72,There's a person who is experiencing alcohol poisoning.,medical department
+73,There's a person who has fainted.,medical department
+74,There's a person who is having a panic attack due to anxiety.,medical department
+75,There's a person who is having a panic attack due to anxiety.,medical department
+76,My house has been damaged due to a gas explosion.,fire department
+77,I'm experiencing severe dehydration.,medical department
+78,There's a person who is experiencing anaphylactic shock due to a food allergy.,medical department
+79,I see a person who is experiencing a severe allergic reaction due to medication.,medical department
+80,There's a person who is experiencing a severe sunburn.,medical department
+81,There's a person who is experiencing a severe headache due to a concussion.,medical department
+82,I'm experiencing a severe reaction to a medication.,medical department
+83,There's a person who is experiencing a severe asthma attack due to air pollution.,medical department
+84,My car has been vandalized.,police department
+85,There's a person who is experiencing a severe earache.,medical department
+86,I see a person who is experiencing a severe nosebleed due to high blood pressure.,medical department
+87,There's a person who is experiencing a severe migraine.,medical department
+88,My child has been kidnapped.,police department
+89,There's a person who is experiencing a severe allergic reaction due to an insect bite.,medical department
+90,There's a person who is experiencing a severe allergic reaction due to an insect bite.,medical department
+91,My house is on fire.,fire department
+92,There's a person who is experiencing a severe nosebleed due to a blood disorder.,medical department
+93,I see a person who is experiencing a severe asthma attack due to exercise.,medical department
+94,There's a person who is experiencing a severe back pain.,medical department
+95,There's a person who is experiencing a severe chest pain.,medical department
+96,My pet is trapped in a tree.,fire department
+97,There's a person who is experiencing a severe toothache.,medical department
+98,I see a person who is experiencing a severe allergic reaction due to a drug.,medical department
+99,There's a person who is experiencing a severe asthma attack due to a respiratory infection.,medical department
+100,There's a person who is experiencing a severe burn due to hot liquids.,medical department
+101,I'm experiencing a severe nosebleed.,medical department
+102,There's a person who is experiencing a severe migraine due to a hormonal imbalance.,medical department
+103,There's a person who is experiencing a severe allergic reaction due to a latex allergy.,medical department
+104,There's a person who is experiencing a severe asthma attack due to exposure to mold.,medical department
+105,There's a person who is experiencing a severe stomach ache.,medical department
+106,I see a person who is experiencing a severe allergic reaction due to shellfish.,medical department
+107,There's a person who is experiencing a severe migraine due to stress.,medical department
+108,There's a person who is experiencing a severe sunburn due to excessive sun exposure.,medical department
+109,There's a person who is experiencing a severe toothache due to a cavity.,medical department
+110,My boat is sinking.,emergency services
+111,There's a person who is experiencing a severe allergic reaction due to a food additive.,medical department
+112,There's a person who is experiencing a severe migraine due to changes in weather.,medical department
+113,There's a person who is experiencing a severe asthma attack due to exposure to secondhand smoke.,medical department
+114,There's a person who is experiencing a severe allergic reaction due to a perfume.,medical department
+115,There's a person who is experiencing a severe migraine due to lack of sleep.,medical department
+116,My child is choking and can't breathe.,medical department
+117,There's a person who is experiencing a severe asthma attack due to exercise in cold weather.,medical department
+118,I see a person who is experiencing a severe migraine due to a sinus infection.,medical department
+119,There's a person who is experiencing a severe allergic reaction due to a medication.,medical department
+120,There's a person who is experiencing a severe burn due to a chemical exposure.,medical department
+121,My house is flooded.,emergency services
+122,There's a person who is experiencing a severe chest pain and difficulty breathing.,medical department
+123,There's a person who is experiencing a severe asthma attack due to exposure to air pollution.,medical department
+124,There's a person who is experiencing a severe allergic reaction due to a dust allergy.,medical department
+125,There's a person who is experiencing a severe migraine due to hormonal changes.,medical department
+126,My child has a high fever and seizures.,medical department
+127,There's a person who is experiencing a severe toothache due to a broken tooth.,medical department
+128,There's a person who is experiencing a severe allergic reaction due to a peanut allergy.,medical department
+129,There's a person who is experiencing a severe burn due to a house fire.,emergency services
+130,There's a person who is experiencing a severe chest pain and dizziness.,medical department
+131,There's a person who is experiencing a severe asthma attack due to exposure to pollen.,medical department
+132,There's a person who is experiencing a severe migraine due to a head injury.,medical department
+133,There's a person who is experiencing a severe toothache due to a broken filling.,medical department
+134,My car is stuck in a ditch.,emergency services
+135,There's a person who is experiencing a severe allergic reaction due to a seafood allergy.,medical department
+136,There's a person who is experiencing a severe back pain due to a slipped disc.,medical department
+137,There's a person who is experiencing a severe chest pain and sweating.,medical department
+138,There's a person who is experiencing a severe asthma attack due to exposure to cold air.,medical department
+139,There's a person who is experiencing a severe burn due to a gasoline explosion.,emergency services
+140,There's a person who is experiencing a severe migraine due to a neck injury.,medical department
+141,There's a person who is experiencing a severe toothache due to a dental abscess.,medical department
+142,There's a person who is experiencing a severe allergic reaction due to a dairy allergy.,medical department
+143,There's a person who is experiencing a severe chest pain and shortness of breath.,medical department
+144,There's a person who is experiencing a severe asthma attack due to exposure to wood smoke.,medical department
+145,There's a person who is experiencing a severe back pain due to a muscle strain.,medical department
+146,I'm experiencing a mental health crisis.,medical department
+147,I need help with a domestic dispute.,police department
+148,I'm experiencing a mental health crisis.,medical department
+149,I need help with a domestic dispute.,police department
+150,There's a gas leak in my building.,fire department
+151,I smell smoke and I think there might be a fire in my neighbor's apartment.,fire department
+152,There's a small fire in my kitchen that I can't put out.,fire department
+153,I see a car accident with injuries on the side of the road.,police department
+154,There's a suspicious person lurking outside my house.,police department
+155,I think I just witnessed a hit and run accident.,police department
+156,My neighbor is blasting loud music late at night and disturbing the peace.,police department
+158,I saw a person breaking into a house across the street.,police department
+159,There's a tree on fire in my backyard.,fire department
+160,There's a person acting erratically and violently in public.,police department
+161,My car has been stolen.,police department
+162,There's a gas station on fire on the corner of my block.,fire department
+163,I think there's a burglary in progress in my neighbor's house.,police department
+164,There's a car parked illegally in front of my house.,police department
+166,There's a gas explosion in my apartment building.,fire department
+167,I see a drunk driver swerving on the road.,police department
+168,There's a person attempting to break into my car.,police department
+173,I see a car driving recklessly and endangering others on the road.,police department
+174,I just witnessed a mugging on the street.,police department
+178,I just found a lost child wandering around alone.,police department
+180,There's a car parked illegally in a handicap spot.,police department
+181,I think there's someone trying to break into my house.,police department
+182,There's a gas station attendant having a heart attack.,medical department
+183,I just witnessed a physical fight between two people in public.,police department
+185,I see a person shoplifting in a store.,police department
+186,There's a large crowd of people fighting in the street.,police department
+188,There's a car blocking my driveway and I can't get out.,police department
+189,There's a gas leak in the basement of my office building.,fire department
+194,There's a person loitering outside my store and making customers uncomfortable.,police department
+197,I just witnessed a hit and run accident with no injuries.,police department
+200,I see a person stealing a bike on the street.,police department
+203,I just witnessed a car break-in.,police department
+206,I see a person smoking marijuana in a public area.,police department
+208,I found a lost wallet on the street.,police department
+210,I'm experiencing a mental health crisis.,medical department
+211,I need help with a domestic dispute.,police department
+212,I'm having a severe asthma attack.,medical department
+213,There's a person who is stuck in a car that has crashed.,fire department
+214,I think someone is trying to break into my car.,police department
+215,I see a person who has fallen from a height.,emergency services
+216,I'm having a heart attack.,medical department
+217,I've been in a car accident.,emergency services
+218,There's a fire in my house.,fire department
+219,I've been robbed.,police department
+220,I've been assaulted.,police department
+221,I've seen someone breaking into a car.,police department
+222,I'm having trouble breathing.,medical department
+223,I'm having a seizure.,medical department
+224,I'm unconscious.,medical department
+225,I'm bleeding heavily.,medical department
+226,I've been in a fall.,medical department
+227,I've been exposed to a hazardous material.,medical department
+228,I've been bitten by an animal.,medical department
+229,I've seen a crime in progress.,police department
+230,I've been the victim of a crime.,police department
+231,I've seen someone breaking into a car.,police department
+232,I've seen someone vandalizing property.,police department
+233,I've seen someone driving erratically.,police department
+234,I've seen someone loitering in a suspicious manner.,police department
+235,I've heard a gunshot.,police department
+236,I've seen a suspicious package.,police department
+237,I've seen someone who is lost or confused.,police department
+238,I've seen someone who is intoxicated or disorderly.,police department
+239,There's a fire in my house.,fire department
+240,There's a fire in my neighbor's house.,fire department
+241,There's a fire in a building.,fire department
+242,There's a fire in a car.,fire department
+243,There's a fire in a forest.,fire department
+244,There's a fire in a field.,fire department
+245,There's a fire in a dumpster.,fire department
+246,There's a fire in a trash can.,fire department
+247,There's a fire in a firework.,fire department
+248,There's a fire in a gas leak.,fire department
+249,I've seen someone who is injured or unconscious.,emergency services
+250,I've seen someone who is having a medical emergency.,emergency services
+251,I've seen someone who is in danger.,emergency services
+252,I've seen a natural disaster in progress.,emergency services
+253,I've seen a man-made disaster in progress.,emergency services
+254,I've seen a hazardous material spill.,emergency services
+255,I've seen a power outage.,emergency services
+256,I've seen a water main break.,emergency services
+257,I've seen a gas leak.,emergency services
+258,I've seen a traffic accident.,emergency services

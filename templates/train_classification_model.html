@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Emotion Recognition System</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </head>
+
+  <body
+    style="
+      background-image: url('https://images.pexels.com/photos/13926929/pexels-photo-13926929.jpeg?auto=compress&cs=tinysrgb&w=1600');
+      background-repeat: no-repeat;
+      background-size: cover;
+    "
+  >
+    <!-- Navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/"
+          ><b>Emotion Recognition Systems</b></a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navMenu"
+          aria-controls="navMenu"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse ms-3" id="navMenu">
+          <ul class="nav nav-pills nav-fill ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/" style="color: #fff"
+                >Main Dashboard</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                style="background-color: #fff; color: #000"
+                class="nav-link active"
+                href="/train_classification_model"
+                >Text Classification Model Training</a
+              >
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div
+      class="container shadow"
+      style="
+        margin-bottom: 5%;
+        padding: 2% 2% 2% 2%;
+        margin-top: 5%;
+        background-color: rgba(255, 255, 255, 0.7);
+        border-radius: 2rem !important;
+      "
+    >
+    <form method="POST" style="text-align: center; margin-bottom: 2%;">
+      <button type="submit" class="btn btn-success">Train Model</button>
+  </form>
+      <div class="row mb-3">
+        <div class="col-sm-6" style="margin: auto;">
+          <div class="card">
+            <div class="card-body">
+              <h3>Class Distribution</h3>
+              <img
+              src="https://docs.telerik.com/devtools/wpf/controls/radchartview/populating-with-data/images/series-databinding_1.png"
+              alt="Waveplot"
+              class="img-fluid"
+              id="classDistributionDefaultImage"
+              style="display: block"
+            />
+              <img src="{{ url_for('static', filename='images/class_distribution.png') }}" id="classDistributionImage" style="display: none" alt="Class Distribution">
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      <hr/>
+
+      <div class="row mb-3">
+        <div class="col-sm-6">
+          <div class="card">
+            <div class="card-body">
+              <h3>Learning Curve</h3>
+              <img
+              src="https://th.bing.com/th/id/R.64d98dd774e0a97f2e2b13dbefef3e33?rik=kGc8dEcn%2bmRX2Q&pid=ImgRaw&r=0"
+              alt="Learning Curve"
+              class="img-fluid"
+              id="learningCurveDefaultImage"
+              style="display: block"
+            />
+              <img src="{{ url_for('static', filename='images/learning_curve.png') }}" id="learningCurveImage" style="display: none" alt="Learning Curve">
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6" >
+          <div class="card">
+            <div class="card-body">
+              <h3>Confusion Matrix</h3>
+              <img
+              src="https://miro.medium.com/max/1352/1*AQ4djYRqTsW0d7fQF5aV4g.png"
+              alt="Waveplot"
+              class="img-fluid"
+              id="confusionMatrixDefaultImage"
+              style="display: block"
+            />
+              <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" id="confusionMatrixImage" style="display: none" alt="Confusion Matrix">
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <hr/>
+
+      <div class="row">
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header"><h3>Hyper Parameters </h3></div>
+          <div class="card-body">
+            <p class="card-text">
+              <textarea rows="6" style="width: 100%">
+                {% if hyperparameters %}
+                {{ hyperparameters }}
+                {% endif %}
+              </textarea>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6">
+        <div class="card">
+          <div class="card-header"><h3>Best Accuracy of the model </h3></div>
+          <div class="card-body">
+            <p class="card-text">
+              <textarea rows="6" style="width: 100%">
+                {% if best_Accuracy %}
+                {{ best_Accuracy }}
+                {% endif %}
+              </textarea>
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3 text-center">
+        <form action="/apply_new_text_classification" method="post">
+        <button type="submit" class="btn btn-primary" name="button" value="applyNewTextClassification">Apply New Model</button>
+      </form>
+      </div>
+      </div>
+
+    
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+      // SET DEFAULT IMG FOR CLASS DRISTRIBUTION 
+
+      var classDistribution = {{ url_for('static', filename='images/class_distribution.png') }}; //PASS THE VALUE FOR CLASS DRISTRIBUTION IMAGE RECIEVED FROM BACKEND
+
+      var classDistributionImage = document.getElementById("classDistributionImage");
+      var classDistributionDefaultImage = document.getElementById(
+        "classDistributionDefaultImage"
+      );
+
+      if (classDistribution) {
+        classDistributionImage.style.display = "block"; // Show the Class distribution image
+        classDistributionDefaultImage.style.display = "none";
+      } else {
+        classDistributionImage.style.display = "none"; //Show the default Class distribution image
+        classDistributionDefaultImage.style.display = "block";
+      }
+    </script>
+
+    <script>
+
+      // SET DEFAULT IMG FOR LEARNING CURVE
+
+      var learningCurve = {{ url_for('static', filename='images/learning_curve.png') }}; //PASS THE VALUE FOR LEARNING CURVE IMAGE RECIEVED FROM BACKEND
+
+      var learningCurveImage = document.getElementById("learningCurveImage");
+      var learningCurveDefaultImage = document.getElementById(
+        "learningCurveDefaultImage"
+      );
+
+      if (learningCurve) {
+        learningCurveImage.style.display = "block"; // Show the Learning Curve image
+        learningCurveDefaultImage.style.display = "none";
+      } else {
+        learningCurveImage.style.display = "none"; //Show the default Learning Curve image
+        learningCurveDefaultImage.style.display = "block";
+      }
+    </script>
+
+    <script>
+      // SET DEFAULT IMG FOR CONFUSION MATRIX
+
+      var confusionMatrix = {{ url_for('static', filename='images/confusion_matrix.png') }}; //PASS THE VALUE FOR CONFUSION MATRIX RECIEVED FROM BACKEND
+
+      var confusionMatrixImage = document.getElementById("confusionMatrixImage");
+      var confusionMatrixDefaultImage = document.getElementById(
+        "confusionMatrixDefaultImage"
+      );
+
+      if (confusionMatrix) {
+        confusionMatrixImage.style.display = "block"; // Show the Confusion Matrix image
+        confusionMatrixDefaultImage.style.display = "none";
+      } else {
+        confusionMatrixImage.style.display = "none"; //Show the default Confusion Matrix image
+        confusionMatrixDefaultImage.style.display = "block";
+      }
+    </script>
+
+    
+  </body>
+</html>

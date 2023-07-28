@@ -70,8 +70,10 @@ def load_tess_data(Tess):
     for dir in tess_directory_list:
         actor = os.listdir(Tess + dir)
         for file in actor:
-            part = file.split('.')[0]
-            part = part.split('_')[2]
+            parts = file.split('.')[0].split('_')
+            if len(parts) < 3: 
+                continue  # skip files without three parts in the name
+            part = parts[2]
             if part == 'ps':
                 file_emotion.append('surprise')
             else:
@@ -87,19 +89,22 @@ def load_savee_data(Savee):
     file_emotion = []
     file_path = []
     for file in savee_directory_list:
-        if file[0] == 'a':
+        file_path.append(Savee + file)
+        part = file.split('_')[1]
+        ele = part[:-6]
+        if ele == 'a':
             file_emotion.append('angry')
-        elif file[0] == 'f':
+        elif ele == 'f':
             file_emotion.append('fear')
-        elif file[0] == 'h':
+        elif ele == 'h':
             file_emotion.append('happy')
-        elif file[0] == 'n':
+        elif ele == 'n':
             file_emotion.append('neutral')
-        elif file[0] == 's':
+        elif ele == 's':
             file_emotion.append('sad')
         else:
             file_emotion.append('Unknown')
-        file_path.append(Savee + file)
+        
     emotion_df = pd.DataFrame(file_emotion, columns=['Emotions'])
     path_df = pd.DataFrame(file_path, columns=['Path'])
     Savee_df = pd.concat([emotion_df, path_df], axis=1)
@@ -181,24 +186,25 @@ def get_features(path):
     data, sample_rate = librosa.load(path, duration=2.5, offset=0.6)
 
     # without augmentation
-    res1 = extract_features(data)
+    res1 = extract_features(data,sample_rate)
     result = np.array(res1)
 
     # data with noise
     noise_data = noise(data)
-    res2 = extract_features(noise_data)
+    res2 = extract_features(noise_data,sample_rate)
     result = np.vstack((result, res2)) # stacking vertically
 
     # data with stretching and pitching
     new_data = stretch(data)
     data_stretch_pitch = pitch(new_data, sample_rate)
-    res3 = extract_features(data_stretch_pitch)
+    res3 = extract_features(data_stretch_pitch,sample_rate)
     result = np.vstack((result, res3)) # stacking vertically
 
     return result
 
 def create_feature_df(voiceDatasetPath):
     df = pd.read_csv(voiceDatasetPath)
+    df = df[df.Emotions != 'Unknown']
     X, Y = [], []
     for path, emotion in zip(df.Path, df.Emotions):
         feature = get_features(path)

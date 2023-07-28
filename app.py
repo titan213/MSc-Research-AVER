@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 import librosa.display
 import os
 import information_classification
+import train_voice_emotion_model as tvem
 from datetime import datetime
 import shutil 
 import csv
@@ -158,6 +159,15 @@ def apply_new_text_classification_model():
             shutil.copy2(source, destination)
 
         return render_template('train_classification_model.html')
+
+@app.route('/train_emotion_model', methods=['GET', 'POST'])
+def train_emotion_model_page():
+    if request.method == 'POST':
+         plot_img_b64_str,accuracy_ontest_data = tvem.main()
+         return render_template('train_emotion_model.html', plot_img_b64_str=plot_img_b64_str,accuracy_ontest_data=accuracy_ontest_data)
+
+        
+
 
 if __name__ == '__main__':
     app.run(debug=True)

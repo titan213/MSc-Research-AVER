@@ -44,15 +44,15 @@
         <div class="collapse navbar-collapse ms-3" id="navMenu">
           <ul class="nav nav-pills nav-fill ms-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/" style="color: #fff"
+              <a class="nav-link" href="/index.html" style="color: #fff"
                 >Main Dashboard</a
               >
             </li>
             <li class="nav-item">
               <a
-                style="background-color: #fff; color: #000"
-                class="nav-link active"
-                href="/train_classification_model"
+              style="color: #fff"
+                class="nav-link"
+                href="/train_classification_model.html"
                 >Text Classification Model Training</a
               >
             </li>
@@ -60,24 +60,12 @@
                 <a
                   style="background-color: #fff; color: #000"
                   class="nav-link active"
-                  href="/train_classification_model"
+                  href="/train_emotion_model"
                   >Voice Emotion Model Training</a
                 >
               </li>
 
-              <h1>Training Evaluation</h1>
-<p>Accuracy: {{ results.training.accuracy }}</p>
-<p>Recall: {{ results.training.recall }}</p>
-<!-- Display other metrics as needed -->
-
-<h1>Testing Evaluation</h1>
-<p>Accuracy: {{ results.testing.accuracy }}</p>
-<p>Recall: {{ results.testing.recall }}</p>
-<!-- Display other metrics as needed -->
-
-<!-- Display confusion matrix images -->
-<img src="{{ url_for('static', filename='training_confusion_matrix.png') }}" alt="Training Confusion Matrix">
-<img src="{{ url_for('static', filename='test_confusion_matrix.png') }}" alt="Testing Confusion Matrix">
+             
           </ul>
         </div>
       </div>
@@ -96,59 +84,163 @@
     <form method="POST" style="text-align: center; margin-bottom: 2%;">
       <button type="submit" class="btn btn-success">Train Model</button>
   </form>
+  <div class="row mb-3">
+    <div class="col-sm-6" style="margin: auto;">
+      <div class="card">
+        <div class="card-body">
+          <h3>Histroy Plot</h3>
+          
+          <<img src="data:image/png;base64, {{ model_history }}" alt="Model training history plot">
+
+        </div>
+      </div>
+    </div>
+    
+  </div>
+      <hr/>
+
+       <!-- Display Training Evaluation -->
+
       <div class="row mb-3">
-        <div class="col-sm-6" style="margin: auto;">
+        <div class="col-sm-12">
           <div class="card">
-            <div class="card-body">
-              <img src="{{plot_img_b64_str}}" id="historyModel" style="display: none" alt="CNN History">
+            <div class="card-header">
+              <h3>Model Evaluation</h3>
             </div>
+            <div class="row mb-3">
+              <div class="col-sm-6">
+                <div class="col-sm-12">
+                  <div class="card border-0">
+                    <div class="card-body">
+                      <p class="card-text">
+                        <h4>Accuracy</h4>
+                        <textarea rows="6" style="width: 100%">
+                          {% for metric in metrics %}
+                          <h1>Evaluation for {{ metric.emotion }}</h1>
+                          <p>Accuracy: {{ metric.accuracy }}</p>
+                          {% endfor %}
+                        </textarea>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="card border-0">
+                    <div class="card-body">
+                      <h4>Precision</h4>
+                      <p class="card-text">
+                        <textarea rows="6" style="width: 100%">
+                          {% for metric in metrics %}
+                          <h1>Evaluation for {{ metric.emotion }}</h1>
+                          <p>Precision: {{ metric.precision }}</p>
+                          {% endfor %}
+                        </textarea>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-12">
+                  <div class="card border-0">
+                    <div class="card-body">
+                      <h4>Recall</h4>
+                      <p class="card-text">
+                        <textarea rows="6" style="width: 100%">
+                          {% for metric in metrics %}
+                          <h1>Evaluation for {{ metric.emotion }}</h1>
+                          <p>Recall: {{ metric.recall }}</p>
+                          {% endfor %}
+                        </textarea>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="card border-0">
+                  <div class="card-body">
+                    <h4>F1 Score</h4>
+                    <p class="card-text">
+                      <textarea rows="6" style="width: 100%">
+                        {% for metric in metrics %}
+                          <h1>Evaluation for {{ metric.emotion }}</h1>
+                          <p>F1 Score: {{ metric.f1_score }}</p>
+                          {% endfor %}
+                      </textarea>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6">
+                <div class="card border-0">
+                  <div class="card-body">
+                    <h4>AUC</h4>
+                    <p class="card-text">
+                      <textarea rows="6" style="width: 100%">
+                        {% for metric in metrics %}
+                          <h1>Evaluation for {{ metric.emotion }}</h1>
+                          <p>AUC: {{ metric.auc }}</p>
+                          {% endfor %}
+                      </textarea>
+                    </p>
+                  </div>
+                </div>
+              </div>
+          </div>
+
           </div>
         </div>
-        
       </div>
       <hr/>
 
-      <div class="row mb-3">
-        <div class="col-sm-6">
-          <div class="card">
-            <div class="card-body">
-              <h3>Learning Curve</h3>
-              <img src="{{ url_for('static', filename='images/learning_curve.png') }}" id="learningCurveImage" style="display: none" alt="Learning Curve">
+        <!-- Display Testing Evaluation -->
+
+        <div class="row mb-3">
+          <div class="col-sm-12">
+            <div class="card">
+              <div class="card-header">
+                <h3>Graphs</h3>
+              </div>
+              <div class="row mb-3">
+                <div class="col-sm-6">
+                  <div class="col-sm-12">
+                    <div class="card border-0">
+                      <div class="card-body">
+                        <p class="card-text">
+                          <h4>Confusion Matrix for each Emotion</h4>
+                          {% for metric in metrics %}
+                          <img src="data:image/png;base64,{{ metric.confusion_matrix_img }}" alt="Confusion Matrix">
+                          {% endfor %}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="col-sm-6">
+                  <div class="card border-0">
+                    <div class="card-body ">
+                      <h4 class="mb-2">ROC Curve on all Emotions</h4>
+                      {% for metric in metrics %}
+                      {% if metric.emotion == 'all_emotions' %}
+                          <img src="data:image/png;base64,{{ metric.roc_curve_img }}" alt="Combined ROC Curve">
+                      {% endif %}
+                      {% endfor %}             
+                    </div>
+                  </div>
+                </div>
+            </div>
+  
             </div>
           </div>
         </div>
-        <div class="col-sm-6" >
-          <div class="card">
-            <div class="card-body">
-              <img src="{{ url_for('static', filename='images/confusion_matrix.png') }}" id="confusionMatrixImage" style="display: none" alt="Confusion Matrix">
-            </div>
-          </div>
-        </div>
-
-
-      </div>
-      <hr/>
 
       <div class="row">
-      <div class="col-sm-6">
-        <div class="card">
-          <div class="card-header"><h3>Training Evaluation </h3></div>
-          <div class="card-body">
-            <p class="card-text">
-              <textarea rows="6" style="width: 100%">
-                {% if accuracy_ontest_data %}
-                {{ accuracy_ontest_data }}
-                {% endif %}
-              </textarea>
-            </p>
-          </div>
+        <div class="mt-3 text-center">
+          <form action="/apply_new_voice_emotion_model" method="post">
+            <button type="submit" class="btn btn-primary" name="button" value="applyNewEmotionModel">Apply New Model</button>
+          </form>
         </div>
-      </div>
-      <div class="mt-3 text-center">
-        <form action="/apply_new_text_classification" method="post">
-        <button type="submit" class="btn btn-primary" name="button" value="applyNewTextClassification">Apply New Model</button>
-      </form>
-      </div>
       </div>
 
     

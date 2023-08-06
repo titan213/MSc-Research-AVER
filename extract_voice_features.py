@@ -222,10 +222,8 @@ def create_feature_df(voiceDatasetPath):
 def main():
     # Load the data
     load_data()
-
-    # Specify the path to your dataset
     voiceDatasetPath = "training/csv/voice_data.csv"
-
-    # Create the feature data frame
+    # Create feature vectors
     create_feature_df(voiceDatasetPath)
+   
 

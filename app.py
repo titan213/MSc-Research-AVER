@@ -11,6 +11,7 @@ from datetime import datetime
 import shutil 
 import csv
 import zipfile
+import extract_voice_features as evf
 
 
 #global variables
@@ -163,10 +164,37 @@ def apply_new_text_classification_model():
 @app.route('/train_emotion_model', methods=['GET', 'POST'])
 def train_emotion_model_page():
     if request.method == 'POST':
-         plot_img_b64_str,accuracy_ontest_data = tvem.main()
-         return render_template('train_emotion_model.html', plot_img_b64_str=plot_img_b64_str,accuracy_ontest_data=accuracy_ontest_data)
+        evf.main()
+        metrics,model_history  =  tvem.main()
+        return render_template('train_emotion_model.html',metrics=metrics,model_history=model_history)
+    else:
+        return render_template('train_emotion_model.html')
 
-        
+@app.route('/apply_new_emotion_model', methods=['GET', 'POST'])
+def apply_new_emotion_model():
+    button = request.form.get('button')
+    src_folder = "training/voice_data"
+    dst_folder = "models"
+    backup_folder = "backups/emotion"
+    backupFileName = f"{backup_folder}/{time}.zip"
+    filenames = ['reverse_mapping.pkl','best_model.h5']
+    time = datetime.now().strftime("%Y%m%d_%H%M%S")
+    if button == 'applyNewEmotionModel':
+
+        #backing up the old model
+        with zipfile.ZipFile(backupFileName, 'w') as zipObj:
+            for filename in filenames:
+                source = os.path.join(dst_folder, filename)
+                zipObj.write(source, arcname=filename)   
+
+        for filename in filenames:
+            source = os.path.join(src_folder, filename)
+            destination = os.path.join(dst_folder, filename)
+            shutil.copy2(source, destination)
+
+        return render_template('train_emotion_model.html')
+
+
 
 
 if __name__ == '__main__':

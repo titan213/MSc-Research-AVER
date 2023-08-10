@@ -11,7 +11,7 @@ import pickle
 
 # Load the model
 def load_audio_model():
-    model = load_model('models/best_model.h5')
+    model = load_model('models/best_test.h5')
     return model
 
 def load_svm_model():
@@ -78,8 +78,8 @@ def predict_audio_emotion(path, model):
                                     139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152,
                                     153, 154, 155, 156, 157, 158, 159, 160, 161]
     test = get_features(path)
-    test = test[correlation_selected_indices]
-    test = np.reshape(test, (1, 120, 1))
+    #test = test[correlation_selected_indices]
+    test = np.reshape(test, (1, 162, 1))
     predictions = model.predict(test)
     return predictions
 

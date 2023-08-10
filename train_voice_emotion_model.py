@@ -8,9 +8,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 import pickle
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
-from sklearn.feature_selection import SelectKBest, f_classif
-from sklearn.preprocessing import StandardScaler, OneHotEncoder
-from sklearn.metrics import confusion_matrix, classification_report
+from sklearn.preprocessing import  OneHotEncoder
 from sklearn.model_selection import train_test_split
 import keras
 import tensorflow

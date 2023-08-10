@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, jsonify,send_from_directory,session
+from flask import Flask, request, render_template, redirect ,session,flash
 from werkzeug.utils import secure_filename
 import os
 import predict_module
@@ -19,6 +19,7 @@ filepath = ""
 emotion = ""
 department = ""
 sentence = ""
+help_message=None
 
 def create_waveplot(data, sr, filename):
     if not os.path.exists('static'):
@@ -49,6 +50,7 @@ def home():
 
 @app.route('/statics/uploads', methods=['GET', 'POST'])
 def upload_file():
+    global help_message
     if 'file' not in request.files:
         print("No file in request")
         return redirect(request.url)
@@ -71,14 +73,21 @@ def upload_file():
         audio_file= 'static/uploads/' + filename
         emotion, department, sinhala_sentence, sentence = predict_module.predict(filepath)
 
-
-        print('Data retrieved from session:', session)
-
         session['filepath'] = filepath
         session['emotion'] = emotion
         session['department'] = department
         session['sentence'] = sentence
 
+        if session['emotion'].lower() in ['sad']:
+            help_message = 'Analysis shows caller is in sad mode. Please do necessary action.'
+        elif session['emotion'].lower() in ['angry']:
+            help_message = 'Caller is stressed and needs to be calmed down. Please do necessary action.'
+        elif session['emotion'].lower() in ['fear']:
+            help_message = 'Caller is in fear. Please do necessary action.'
+        
+        if help_message:
+            flash(help_message)
+       
         return render_template('index.html', 
                             waveplot=waveplot_filename, 
                             spectrogram=spectrogram_filename,
@@ -113,9 +122,13 @@ def resolve_incident():
             # Append the new sentence and department to the CSV
             sentence = sentence.replace(',', ' ')
             with open('training/information/sentence.csv', 'a', newline='') as f:
+                if last_line and not last_line.endswith('\n'):
+                    f.write('\n')
+
                 writer = csv.writer(f)
-                writer.writerow('\n')
-                writer.writerow([new_id, sentence, department])  
+                writer.writerow([new_id, sentence, department])
+
+            flash('Incident resolved successfully')  
 
     return render_template('index.html')
 
@@ -126,11 +139,16 @@ def train_classification_model_page():
     if request.method == 'POST':
         # Train the model here
         hyperparameters, best_Accuracy = information_classification.train_model_route()
+        if hyperparameters and best_Accuracy:
+            flash('Model trained successfully!')
 
         # Then return the template with the results
         return render_template('train_classification_model.html',
                                hyperparameters=hyperparameters,
-                               best_Accuracy=best_Accuracy)
+                               best_Accuracy=best_Accuracy,
+                               plot_conf_mat='static/images/confusion_matrix.png',
+                               plot_class_dist='static/images/class_distribution.png',
+                               plot_learning_curve='static/images/learning_curve.png')
     else:
         # If it's not a POST request, render the page normally
         return render_template('train_classification_model.html')
@@ -158,6 +176,8 @@ def apply_new_text_classification_model():
             source = os.path.join(src_folder, filename)
             destination = os.path.join(dst_folder, filename)
             shutil.copy2(source, destination)
+        
+        flash('New text classification model applied successfully!')
 
         return render_template('train_classification_model.html')
 
@@ -166,6 +186,9 @@ def train_emotion_model_page():
     if request.method == 'POST':
         evf.main()
         metrics,model_history  =  tvem.main()
+        if metrics and model_history:
+            flash('Model trained successfully!')
+
         return render_template('train_emotion_model.html',metrics=metrics,model_history=model_history)
     else:
         return render_template('train_emotion_model.html')
@@ -191,6 +214,8 @@ def apply_new_emotion_model():
             source = os.path.join(src_folder, filename)
             destination = os.path.join(dst_folder, filename)
             shutil.copy2(source, destination)
+        
+        flash('New emotion model applied successfully!')
 
         return render_template('train_emotion_model.html')
 
@@ -198,4 +223,4 @@ def apply_new_emotion_model():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)

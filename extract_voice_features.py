@@ -151,7 +151,7 @@ def shift(data):
     shift_range = int(np.random.uniform(low=-5, high = 5)*1000)
     return np.roll(data, shift_range)
 
-def pitch(data, sampling_rate, pitch_factor=0.7): #,
+def pitch(data, sampling_rate, pitch_factor=0.7): 
     return librosa.effects.pitch_shift(data,sr=sampling_rate,n_steps=0.7)
 
 
@@ -214,8 +214,12 @@ def create_feature_df(voiceDatasetPath):
             Y.append(emotion)
     Features = pd.DataFrame(X)
     Features['labels'] = Y
-    Features.to_csv('training/information/features.csv', index=False)
-    Features.head()
+    if Features is not None:
+        Features.to_csv('training/information/features.csv', index=False)
+        Features.head()
+        return True
+    else:
+        return False
 
 
 
@@ -224,6 +228,10 @@ def main():
     load_data()
     voiceDatasetPath = "training/csv/voice_data.csv"
     # Create feature vectors
-    create_feature_df(voiceDatasetPath)
+    result = create_feature_df(voiceDatasetPath)
+    if result:
+        return True
+    else:
+        return False
    
 

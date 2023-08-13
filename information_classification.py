@@ -21,7 +21,6 @@ def vectorize_data(X):
     return vectorizer.fit_transform(X), vectorizer
 
 def train_model(X, y):
-    # Create the SVM classifier
     clf = SVC()
 
     # Define the hyperparameters to tune

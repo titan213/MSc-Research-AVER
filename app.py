@@ -161,10 +161,13 @@ def apply_new_text_classification_model():
     src_folder = "training/information"
     dst_folder = "models"
     backup_folder = "backups/text_classification"
+    time = datetime.now().strftime("%Y%m%d_%H%M%S")
     backupFileName = f"{backup_folder}/{time}.zip"
     filenames = ['sentence.csv', 'svm_model.pkl']
-    time = datetime.now().strftime("%Y%m%d_%H%M%S")
     if button == 'applyNewTextClassification':
+        
+        if not os.path.exists(backup_folder):
+            os.makedirs(backup_folder, exist_ok=True)
 
         #backing up the old model
         with zipfile.ZipFile(backupFileName, 'w') as zipObj:
@@ -184,14 +187,15 @@ def apply_new_text_classification_model():
 @app.route('/train_emotion_model', methods=['GET', 'POST'])
 def train_emotion_model_page():
     if request.method == 'POST':
-        evf.main()
-        metrics,model_history  =  tvem.main()
-        if metrics and model_history:
-            flash('Model trained successfully!')
+        retult = evf.main()
+        if retult:
+             metrics,model_history  =  tvem.main()
+             if metrics and model_history:
+                flash('Model trained successfully!')
 
-        return render_template('train_emotion_model.html',metrics=metrics,model_history=model_history)
-    else:
-        return render_template('train_emotion_model.html')
+                return render_template('train_emotion_model.html',metrics=metrics,model_history=model_history)
+             else:
+                return render_template('train_emotion_model.html')
 
 @app.route('/apply_new_emotion_model', methods=['GET', 'POST'])
 def apply_new_emotion_model():
@@ -199,9 +203,9 @@ def apply_new_emotion_model():
     src_folder = "training/voice_data"
     dst_folder = "models"
     backup_folder = "backups/emotion"
+    time = datetime.now().strftime("%Y%m%d_%H%M%S")
     backupFileName = f"{backup_folder}/{time}.zip"
     filenames = ['reverse_mapping.pkl','best_model.h5']
-    time = datetime.now().strftime("%Y%m%d_%H%M%S")
     if button == 'applyNewEmotionModel':
 
         #backing up the old model

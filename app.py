@@ -73,6 +73,10 @@ def upload_file():
         audio_file= 'static/uploads/' + filename
         emotion, department, sinhala_sentence, sentence = predict_module.predict(filepath)
 
+        if emotion is None or department is None:
+            flash("An error occurred while processing the audio file. Prediction cannot be made.")
+            return redirect(request.url)
+
         session['filepath'] = filepath
         session['emotion'] = emotion
         session['department'] = department
@@ -184,20 +188,24 @@ def apply_new_text_classification_model():
 
         return render_template('train_classification_model.html')
 
+
+
 @app.route('/train_emotion_model', methods=['GET', 'POST'])
 def train_emotion_model_page():
     if request.method == 'POST':
-        retult = evf.main()
-        if retult:
-             metrics,model_history  =  tvem.main()
-             if metrics and model_history:
+        result = evf.main()
+        if result:
+            metrics, model_history = tvem.main()
+            if metrics and model_history:
                 flash('Model trained successfully!')
+                return render_template('train_emotion_model.html', metrics=metrics, model_history=model_history)
+    else:
+        return render_template('train_emotion_model.html')
 
-                return render_template('train_emotion_model.html',metrics=metrics,model_history=model_history)
-             else:
-                return render_template('train_emotion_model.html')
 
-@app.route('/apply_new_emotion_model', methods=['GET', 'POST'])
+
+
+@app.route('/apply_new_voice_emotion_model', methods=['GET', 'POST'])
 def apply_new_emotion_model():
     button = request.form.get('button')
     src_folder = "training/voice_data"
@@ -205,8 +213,11 @@ def apply_new_emotion_model():
     backup_folder = "backups/emotion"
     time = datetime.now().strftime("%Y%m%d_%H%M%S")
     backupFileName = f"{backup_folder}/{time}.zip"
-    filenames = ['reverse_mapping.pkl','best_model.h5']
+    filenames = ['reverse_mapping.pkl','best_model.h5','selected_indices.txt']
     if button == 'applyNewEmotionModel':
+
+        if not os.path.exists(backup_folder):
+            os.makedirs(backup_folder, exist_ok=True)
 
         #backing up the old model
         with zipfile.ZipFile(backupFileName, 'w') as zipObj:

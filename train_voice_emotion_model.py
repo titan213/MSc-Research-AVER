@@ -10,8 +10,8 @@ import pickle
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from sklearn.preprocessing import  OneHotEncoder
 from sklearn.model_selection import train_test_split
-import keras
-import tensorflow
+from sklearn.feature_selection import SelectKBest, f_classif
+from sklearn.decomposition import PCA
 from tensorflow.keras.callbacks import ModelCheckpoint
 from tensorflow.keras import layers, regularizers,models
 import tensorflow as tf
@@ -26,10 +26,32 @@ def load_data(path):
     features = pd.read_csv(path)
     return features
 
-def data_split(features):
+def preprocess_and_data_split(features):
+    file_path = 'training/information/selected_indices.txt'
     X = features.iloc[: ,:-1].values
     Y = features['labels'].values
-    x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.3 ,random_state=42, shuffle=True)
+
+    # Select top 120 features
+    correlation_selector = SelectKBest(score_func=f_classif, k=120)
+    selected_features_correlation = correlation_selector.fit_transform(X, Y)
+
+    #get the selected indices
+    selected_indices = correlation_selector.get_support(indices=True)
+
+     # Save the selected indices to a text file
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
+    with open(file_path, 'w') as file:
+        file.write(','.join(map(str, selected_indices)))
+
+    # Reduce to 120 principal components
+    pca = PCA(n_components=120)
+    selected_features_pca = pca.fit_transform(selected_features_correlation)
+
+
+
+    x_train, x_test, y_train, y_test = train_test_split(selected_features_pca, Y, test_size=0.3 ,random_state=42, shuffle=True)
     return x_train, x_test, y_train, y_test
 
 def data_encode(y_train, y_test):
@@ -45,7 +67,7 @@ def data_encode(y_train, y_test):
     y_test_onehot = onehot_encoder.transform(y_test_encoded).toarray()
 
     reverse_mapping = {encoded_label: original_label for encoded_label, original_label in zip(y_train_encoded.flatten(), y_train)}
-    with open('reverse_mapping_plan.pkl', 'wb') as f:
+    with open('training/information/reverse_mapping.pkl', 'wb') as f:
         pickle.dump(reverse_mapping, f)
 
     y_train = y_train_onehot
@@ -55,17 +77,17 @@ def data_encode(y_train, y_test):
 
 def model_train(train_features, train_labels, val_features, val_labels):
     model = tf.keras.Sequential([
-        layers.Conv1D(256, 3, padding='same', activation='relu', input_shape=(162, 1)),
+        layers.Conv1D(256, 3, padding='same', activation='relu', input_shape=(120, 1)),
         layers.BatchNormalization(),
         layers.MaxPooling1D(2),
         layers.Dropout(0.5),
         layers.Conv1D(128, 3, padding='same', activation='relu'),
         layers.BatchNormalization(),
-        layers.MaxPooling1D(1),
+        layers.MaxPooling1D(2),
         layers.Dropout(0.5),
         layers.Conv1D(512, 3, padding='same', activation='relu'),
         layers.BatchNormalization(),
-        layers.MaxPooling1D(1),
+        layers.MaxPooling1D(2),
         layers.Flatten(),
         layers.Dense(256, activation='relu', kernel_regularizer=regularizers.l2(0.0001)),
         layers.BatchNormalization(),
@@ -73,20 +95,20 @@ def model_train(train_features, train_labels, val_features, val_labels):
         layers.Dense(8, activation='softmax')
     ])
 
-    opt = tf.keras.optimizers.Adam(learning_rate=0.0001, beta_1=0.9, beta_2=0.999, epsilon=1e-07)
+    opt = tf.keras.optimizers.Adam(learning_rate=0.001, beta_1=0.9, beta_2=0.999, epsilon=1e-07)
     model.compile(optimizer=opt, loss='categorical_crossentropy', metrics=['accuracy'])
     model.summary()
 
-    checkpoint_filepath = 'best_model_test.h5'
+    checkpoint_filepath = 'training/information/best_model.h5'
     checkpoint = ModelCheckpoint(filepath=checkpoint_filepath, monitor='val_accuracy', save_best_only=True, mode='max')
 
-    history = model.fit(train_features, train_labels, epochs=600, batch_size=64, validation_data=(val_features, val_labels), callbacks=[checkpoint])
-    model.save('best_test.h5')
+    history = model.fit(train_features, train_labels, epochs=600, batch_size=32, validation_data=(val_features, val_labels), callbacks=[checkpoint])
+    model.save('training/information/best_model.h5')
 
     return model, history
 
 def model_evaluate(model, x_test, y_test):
-    model = models.load_model('best_test.h5')
+    model = models.load_model('training/information/best_model.h5')
 
     res = model.evaluate(x_test, y_test, batch_size=64)
     for num in range(0, len(model.metrics_names)):
@@ -192,7 +214,7 @@ def plot_model_history(history):
 def main():
     path = 'training/information/features.csv'  
     features = load_data(path)
-    x_train, x_test, y_train, y_test = data_split(features)
+    x_train, x_test, y_train, y_test = preprocess_and_data_split(features)
     y_train, y_test, reverse_mapping = data_encode(y_train, y_test)
     x_train = np.expand_dims(x_train, axis=2)
     x_test = np.expand_dims(x_test, axis=2)

@@ -11,8 +11,8 @@
   </div>
   
   {% endfor %}
-  <form method="POST" style="text-align: center; margin-bottom: 2%">
-    <button type="submit" class="btn btn-success">Train Model</button>
+  <form id="train-model-form" method="POST" style="text-align: center; margin-bottom: 2%">
+    <button type="submit" class="btn btn-success" value="trainNewEmotionModel">Train Model</button>
   </form>
   <div class="row mb-3">
     <div class="col-sm-6" style="margin: auto">
@@ -23,6 +23,7 @@
             src="data:image/png;base64, {{ model_history }}"
             alt="Model training history plot"
             style="width: 100%; height: auto"
+            onerror="if (this.src != 'static/error.png') this.src = 'static/error.png';"
           />
         </div>
       </div>
@@ -43,13 +44,11 @@
             <div class="card border-0">
               <div class="card-body">
                 <h4>Accuracy</h4>
-                <textarea rows="6" style="width: 100%">
+                <div class="card-text">
                             {% for metric in metrics %}
-                            <h1>Evaluation for {{ metric.emotion }}</h1>
-                            <p>Accuracy: {{ metric.accuracy }}</p>
+                            <p>Accuracy for {{ metric.emotion }}: {{ metric.accuracy }}</p>
                             {% endfor %}
-                          </textarea
-                >
+                          </div>
               </div>
             </div>
           </div>
@@ -57,13 +56,11 @@
             <div class="card border-0">
               <div class="card-body">
                 <h4>Precision</h4>
-                <textarea rows="6" style="width: 100%">
-                            {% for metric in metrics %}
-                            <h1>Evaluation for {{ metric.emotion }}</h1>
-                            <p>Precision: {{ metric.precision }}</p>
+                <div class="card-text">
+                            {% for metric in metrics %}                           
+                            <p>Precision for {{ metric.emotion }}: {{ metric.precision }}</p>
                             {% endfor %}
-                          </textarea
-                >
+                  </div>                         
               </div>
             </div>
           </div>
@@ -74,15 +71,12 @@
             <div class="card border-0">
               <div class="card-body">
                 <h4>Recall</h4>
-                <p class="card-text">
-                  <textarea rows="6" style="width: 100%">
-                            {% for metric in metrics %}
-                            <h1>Evaluation for {{ metric.emotion }}</h1>
-                            <p>Recall: {{ metric.recall }}</p>
+                <div class="card-text">
+                            {% for metric in metrics %}                            
+                            <p>Recall for {{ metric.emotion }}: {{ metric.recall }}</p>
                             {% endfor %}
-                          </textarea
-                  >
-                </p>
+                          
+                </div>
               </div>
             </div>
           </div>
@@ -91,15 +85,11 @@
             <div class="card border-0">
               <div class="card-body">
                 <h4>F1 Score</h4>
-                <p class="card-text">
-                  <textarea rows="6" style="width: 100%">
-                            {% for metric in metrics %}
-                              <h1>Evaluation for {{ metric.emotion }}</h1>
-                              <p>F1 Score: {{ metric.f1_score }}</p>
+                <div class="card-text">   
+                            {% for metric in metrics %}                             
+                              <p>F1 Score for {{ metric.emotion }}: {{ metric.f1_score }}</p>
                               {% endfor %}
-                          </textarea
-                  >
-                </p>
+                </div>
               </div>
             </div>
           </div>
@@ -110,15 +100,12 @@
             <div class="card border-0">
               <div class="card-body">
                 <h4>AUC</h4>
-                <p class="card-text">
-                  <textarea rows="6" style="width: 100%">
+                <div class="card-text">
                             {% for metric in metrics %}
-                              <h1>Evaluation for {{ metric.emotion }}</h1>
-                              <p>AUC: {{ metric.auc }}</p>
+                              <p>AUC for {{ metric.emotion }}: {{ metric.auc }}</p>
                               {% endfor %}
-                          </textarea
-                  >
-                </p>
+                          
+                </div>
               </div>
             </div>
           </div>
@@ -162,6 +149,7 @@
                   src="data:image/png;base64,{{ metric.roc_curve_img }}"
                   alt="Combined ROC Curve"
                   style="width: 100%; height: auto"
+                  onerror="if (this.src != 'static/error.png') this.src = 'static/error.png';"
                 />
                 {% endif %} {% endfor %}
               </div>
@@ -185,6 +173,14 @@
         </form>
       </div>
     </div>
+
+    <script>
+      document.getElementById('train-model-form').addEventListener('submit', function() {
+        var spinnerContainer = document.getElementById('spinner-container');
+        spinnerContainer.style.display = 'block';
+        spinnerContainer.classList.add('active');
+      });
+      </script>
   
     {%endblock%}
   </div>

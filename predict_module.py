@@ -5,26 +5,19 @@ import librosa
 import speech_recognition as sr
 from deep_translator import GoogleTranslator
 from tensorflow.keras.models import load_model
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 import joblib
 import pickle
 
 # Load the model
 def load_audio_model():
-    model = load_model('models/best_test.h5')
+    model = load_model('models/best_model.h5')
     return model
 
 def load_svm_model():
     # Load the saved model
-    clf = joblib.load('models/svm_model.pkl')
+    clf,vectorizer = joblib.load('models/svm_model.pkl')
 
-    # Load the training data to fit the vectorizer
-    df = pd.read_csv('models/sentence.csv')  
-    X_train = df['phrase']
-
-    # Create the vectorizer and fit it with the training data
-    vectorizer = CountVectorizer()
-    vectorizer.fit(X_train)
     return clf, vectorizer
 
 # Audio features extraction
@@ -61,25 +54,23 @@ def get_features(path):
 
 def sinhala_audio_to_text(audio):
     r = sr.Recognizer()
-    with sr.AudioFile(audio) as source:
-      r.adjust_for_ambient_noise(source)
-      audio = r.record(source)
-      text = r.recognize_google(audio, language='si-LK')
-    translated_text = GoogleTranslator(source='si', target='en').translate(text)
-    return translated_text,text
+    try:
+        with sr.AudioFile(audio) as source:
+            r.adjust_for_ambient_noise(source)
+        audio = r.record(source)
+        text = r.recognize_google(audio, language='si-LK')
+        translated_text = GoogleTranslator(source='si', target='en').translate(text)
+        return translated_text,text
+    except ValueError as e:
+        print(f"An error occurred while reading the audio file: {e}")
+        return None, None
 
 def predict_audio_emotion(path, model):
-    correlation_selected_indices = [13, 14, 15, 16, 17, 18, 21, 30, 31, 32, 33, 40, 41, 42, 43, 44, 45, 46,
-                                    47, 53, 54, 55, 56, 57, 58, 59, 60, 64, 65, 66, 67, 68, 69, 70, 71, 72,
-                                    73, 76, 77, 78, 79, 80, 81, 82, 83, 85, 86, 87, 88, 89, 92, 93, 94, 95,
-                                    96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110,
-                                    111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 124,
-                                    125, 126, 127, 128, 129, 130, 131, 132, 133, 134, 135, 136, 137, 138,
-                                    139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152,
-                                    153, 154, 155, 156, 157, 158, 159, 160, 161]
+    with open('models/selected_indices.txt', 'r') as file:
+        correlation_selected_indices= list(map(int, file.read().strip().split(',')))
     test = get_features(path)
-    #test = test[correlation_selected_indices]
-    test = np.reshape(test, (1, 162, 1))
+    test = test[correlation_selected_indices]
+    test = np.reshape(test, (1, 120, 1))
     predictions = model.predict(test)
     return predictions
 
@@ -105,6 +96,11 @@ def predict(path):
     decoded_predictions = decode_predictions(predictions)
 
     sinhala_sentence ,sentence = sinhala_audio_to_text(path)
+
+    if sinhala_sentence is None or sentence is None:
+        print("An error occurred while processing the audio file. Prediction cannot be made.")
+        return None, None, None, None
+    
     prediction = predict_text_department(sentence, clf, vectorizer)
 
     return decoded_predictions[0], prediction, sentence,sinhala_sentence

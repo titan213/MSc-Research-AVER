@@ -8,7 +8,7 @@
 </div> 
 
 {% endfor %}
-    <form method="POST" style="text-align: center; margin-bottom: 2%;">
+    <form method="POST" style="text-align: center; margin-bottom: 2%;" id="train-classification-form">
       <button type="submit" class="btn btn-success">Train Model</button>
   </form>
       <div class="row mb-3">
@@ -16,7 +16,7 @@
           <div class="card">
             <div class="card-body">
               <h3>Class Distribution</h3>
-              <img src=" {{ plot_class_dist }}" id="classDistributionImage"  alt="Class Distribution" style="width: 100%; height: auto;">
+              <img src=" {{ plot_class_dist }}" id="classDistributionImage"  alt="Class Distribution" style="width: 100%; height: auto;" onerror="if (this.src != 'static/error.png') this.src = 'static/error.png';">
             </div>
           </div>
         </div>
@@ -29,7 +29,7 @@
           <div class="card">
             <div class="card-body">
               <h3>Learning Curve</h3>
-              <img src="{{ plot_learning_curve }}" id="learningCurveImage"  alt="Learning Curve" style="width: 100%; height: auto;">
+              <img src="{{ plot_learning_curve }}" id="learningCurveImage"  alt="Learning Curve" style="width: 100%; height: auto;" onerror="if (this.src != 'static/error.png') this.src = 'static/error.png';">
             </div>
           </div>
         </div>
@@ -37,7 +37,7 @@
           <div class="card">
             <div class="card-body">
               <h3>Confusion Matrix</h3>
-              <img src="{{ plot_conf_mat }}" id="confusionMatrixImage"  alt="Confusion Matrix" style="width: 100%; height: auto;">
+              <img src="{{ plot_conf_mat }}" id="confusionMatrixImage"  alt="Confusion Matrix" style="width: 100%; height: auto;" onerror="if (this.src != 'static/error.png') this.src = 'static/error.png';">
             </div>
           </div>
         </div>
@@ -140,5 +140,12 @@
         confusionMatrixDefaultImage.style.display = "block";
       }
     </script>
+    <script>
+      document.getElementById('train-classification-form').addEventListener('submit', function() {
+        var spinnerContainer = document.getElementById('spinner-container');
+        spinnerContainer.style.display = 'block';
+        spinnerContainer.classList.add('active');
+      });
+      </script>
 
 {%endblock%}

@@ -129,13 +129,17 @@ def load_local_data(localData):
 
 
 def load_data():
+    file_path = 'training/csv/voice_data.csv'
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
     Ravdess_df = load_ravdess_data(Ravdess)
     Crema_df = load_crema_data(Crema)
     Tess_df = load_tess_data(Tess)
     Savee_df = load_savee_data(Savee)
     local_df = load_local_data(localData)
     data = pd.concat([Ravdess_df, Crema_df, Tess_df, Savee_df, local_df], axis=0)
-    data.to_csv("training/csv/voice_data.csv")
+    data.to_csv(file_path)
 
 
 # data augmentation
@@ -203,6 +207,10 @@ def get_features(path):
     return result
 
 def create_feature_df(voiceDatasetPath):
+    file_path = 'training/information/features.csv'
+    if os.path.exists(file_path):
+        os.remove(file_path)
+
     df = pd.read_csv(voiceDatasetPath)
     df = df[df.Emotions != 'Unknown']
     X, Y = [], []
@@ -215,7 +223,7 @@ def create_feature_df(voiceDatasetPath):
     Features = pd.DataFrame(X)
     Features['labels'] = Y
     if Features is not None:
-        Features.to_csv('training/information/features.csv', index=False)
+        Features.to_csv(file_path, index=False)
         Features.head()
         return True
     else:
@@ -230,6 +238,7 @@ def main():
     # Create feature vectors
     result = create_feature_df(voiceDatasetPath)
     if result:
+        print("Features saved successfully")
         return True
     else:
         return False
